@@ -25,7 +25,7 @@ namespace VSOnlineConnectedService
         public override IEnumerable<Tuple<string, Uri>> GetSupportedTechnologyLinks()
         {
             // A list of supported technolgoies, such as which services it supports
-            yield return Tuple.Create("SomeURLName", new Uri("http://someURL.com"));
+            yield return Tuple.Create("SomeURLName", new Uri("https://www.visualstudio.com/products/what-is-visual-studio-online-vs"));
         }
 
         public override Task<ConnectedServiceConfigurator> CreateConfiguratorAsync(ConnectedServiceProviderContext context)
