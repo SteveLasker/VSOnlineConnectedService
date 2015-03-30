@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="VSOnlineConnectedService.Views.TeamProjectSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VSOnlineConnectedService.Views"
+             xmlns:viewModels="clr-namespace:VSOnlineConnectedService.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModels:TeamProjectSelectionViewModel}"
+             mc:Ignorable="d" 
+             d:DesignWidth="584" d:DesignHeight="367" >
+    <StackPanel>
+        <Button x:Name="SelectTeamProject" Content="Select TFS Connection Options" HorizontalAlignment="Left" Margin="15,20,0,0" VerticalAlignment="Top" Width="213" RenderTransformOrigin="0.853,0.95" Height="40" Click="selectTeamProject_Click"/>
+        <GroupBox x:Name="groupBox" Header="Selected Connection Options" Margin="10,10,0,0" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Server:" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding VSOnlineURI}" IsReadOnly="true" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Project:" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=TeamProjectName}" IsReadOnly="true" />
+                <Label Content="Collection:"  Grid.Row="2" Grid.Column="0" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=TeamProjectCollectionName}" IsReadOnly="true" />
+            </Grid>
+        </GroupBox>
+    </StackPanel>
+</UserControl>
