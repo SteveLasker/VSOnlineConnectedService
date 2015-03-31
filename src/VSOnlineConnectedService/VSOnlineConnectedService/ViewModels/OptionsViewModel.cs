@@ -38,10 +38,10 @@ namespace VSOnlineConnectedService.ViewModels
         private string GetValidServiceName(string name)
         {
             //TODO: Do real validation for what folders/namespaces are already in the project
-            if (name == "VSOnline")
-            {
-                name = name + "1";
-            }
+            //if (name == "VSOnline")
+            //{
+            //    name = name + "1";
+            //}
             return name;
         }
 

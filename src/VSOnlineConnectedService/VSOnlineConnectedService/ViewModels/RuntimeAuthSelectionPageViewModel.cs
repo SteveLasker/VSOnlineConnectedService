@@ -9,7 +9,7 @@ using VSOnlineConnectedService.Views;
 
 namespace VSOnlineConnectedService.ViewModels
 {
-    public class RuntimeAuthSelectionPageViewModel : ConnectedServiceWizardPage
+    internal class RuntimeAuthSelectionPageViewModel : ConnectedServiceWizardPage
     {
         public RuntimeAuthSelectionPageViewModel()
         {
@@ -23,7 +23,7 @@ namespace VSOnlineConnectedService.ViewModels
             this.View.DataContext = this;
         }
 
-        private RuntimeAuthOptions _runtimeAuthOptions;
+        private RuntimeAuthOptions _runtimeAuthOptions = RuntimeAuthOptions.None;
 
         public RuntimeAuthOptions RuntimeAuthOptions
         {

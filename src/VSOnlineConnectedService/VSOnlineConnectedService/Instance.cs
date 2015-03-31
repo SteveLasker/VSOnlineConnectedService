@@ -12,6 +12,6 @@ namespace VSOnlineConnectedService
 
         public string TeamProjectName { get; set; }
 
-        public RuntimeAuthOptions RuntimeAuthOption { get; set; }
+        internal RuntimeAuthOptions RuntimeAuthOption { get; set; }
     }
 }

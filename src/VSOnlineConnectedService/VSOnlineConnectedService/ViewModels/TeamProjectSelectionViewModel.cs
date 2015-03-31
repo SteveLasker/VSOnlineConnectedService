@@ -67,7 +67,7 @@ namespace VSOnlineConnectedService.ViewModels
         }
 
         private RuntimeAuthOptions _runTimeAuthOptions;
-        public RuntimeAuthOptions RuntimeAuthOptions
+        internal RuntimeAuthOptions RuntimeAuthOptions
         {
             get { return _runTimeAuthOptions; }
             set

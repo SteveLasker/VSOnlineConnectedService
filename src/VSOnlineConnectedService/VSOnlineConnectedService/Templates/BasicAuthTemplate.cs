@@ -15,13 +15,23 @@ using Microsoft.TeamFoundation.WorkItemTracking.Client;
 namespace $rootnamespace$
 {
     public class TFSWorkItemStoreConnector
-{
+    {
         public static TfsConfigurationServer AuthenticateToTFSService()
         {
             Uri tfsUri = new Uri(GetConfigValue("$Instance.VSOnlineUri$"));
+            string username = GetConfigValue("$Instance.Username$");
+            string password = GetConfigValue("$Instance.Password$");
+            NetworkCredential netCred = new NetworkCredential(username, password);
+            BasicAuthCredential basicCred = new BasicAuthCredential(netCred);
+            TfsClientCredentials tfsCred = new TfsClientCredentials(basicCred);
+            tfsCred.AllowInteractive = false;
 
-            //If you specify a provider, the user will be provided with a prompt to provide non-default credentials
-            ICredentialsProvider provider = new UICredentialsProvider();
+            TfsConfigurationServer configurationServer = new TfsConfigurationServer(new Uri(tfsUrl), tfsCred);
+            configurationServer.Authenticate();
+            return configurationServer;
+
+        //If you specify a provider, the user will be provided with a prompt to provide non-default credentials
+        ICredentialsProvider provider = new UICredentialsProvider();
             TfsConfigurationServer tfs = TfsConfigurationServerFactory.GetConfigurationServer(tfsUri, provider);
 
             try

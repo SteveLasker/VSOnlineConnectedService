@@ -49,8 +49,11 @@ namespace VSOnlineConnectedService
             //TODO: This code isn't correct - it's copying the assemblies to the runtime dir of this project instead of
             //of the runtime dir of the target project.
             //Need to copy the following assemblies to the local runtime folder; this is because these assemblies aren't in the GAC
-            File.Copy(rootDir + "Microsoft.WITDataStore32.dll", Environment.CurrentDirectory + @"\Microsoft.WITDataStore32.dll", true);
-            File.Copy(rootDir + "Microsoft.WITDataStore64.dll", Environment.CurrentDirectory + @"\Microsoft.WITDataStore64.dll", true);
+
+            // TODO: Files should be CopyToOutput = True
+            // hoping there's an updated NuGet soon to avoid having to do this, or eliminate these native dlls alltogether
+            context.HandlerHelper.AddFileAsync(rootDir + "Microsoft.WITDataStore32.dll", "Microsoft.WITDataStore32.dll").Wait();
+            context.HandlerHelper.AddFileAsync(rootDir + "Microsoft.WITDataStore64.dll", "Microsoft.WITDataStore64.dll").Wait();
 
             //Need to add this reference for reading values from the .config file
             context.HandlerHelper.AddAssemblyReference("System.Configuration");
@@ -78,22 +81,23 @@ namespace VSOnlineConnectedService
         {
             Instance tfsContext = (Instance)context.ServiceInstance;
 
+            //Instance vsOnlineInstance = (Instance)context.ServiceInstance;
             string templateResourceUri = null;
+            switch (tfsContext.RuntimeAuthOption)
+            {
+                case RuntimeAuthOptions.IntegratedAuth:
+                    templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/IntegratedAuthTemplate.cs";
+                    break;
+                case RuntimeAuthOptions.BasicAuth:
+                    templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/BasicAuthTemplate.cs";
+                    break;
+                case RuntimeAuthOptions.UsernamePasswordServiceAuth:
+                    templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/ServiceAuthTemplate.cs";
+                    break;
+                default:
+                    throw new InvalidOperationException("Unsupported runtime authentication option:" + tfsContext.RuntimeAuthOption);
+            }
 
-            if (tfsContext.RuntimeAuthOption == RuntimeAuthOptions.BasicAuth)
-            {
-                templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/BasicAuthTemplate.cs";
-            }
-            else if (tfsContext.RuntimeAuthOption == RuntimeAuthOptions.IntegratedAuth)
-            {
-                templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/IntegratedAuthTemplate.cs";
-            }
-            else
-            {
-                throw new InvalidOperationException("Unsupported runtime authentication option:" + tfsContext.RuntimeAuthOption);
-            }
-
-            Instance vsOnlineInstance = (Instance)context.ServiceInstance;
             // Generate a code file into the user's project from a template. 
             // The tokens in the template will be replaced by the HandlerHelper. 
             // Place service specific scaffolded code under the service folder 

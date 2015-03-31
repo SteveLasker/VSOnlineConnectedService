@@ -13,31 +13,6 @@ namespace VSOnlineConnectedService.Views
         {
             InitializeComponent();
         }
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            var button = sender as RadioButton;
-            if (button.IsChecked ?? true)
-            {
-                ((RuntimeAuthSelectionPageViewModel)this.DataContext).RuntimeAuthOptions = RuntimeAuthOptions.IntegratedAuth;
-            }
-            else
-            {
-                ((RuntimeAuthSelectionPageViewModel)this.DataContext).RuntimeAuthOptions = RuntimeAuthOptions.None;
-            }
-        }
-
-        private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
-        {
-            var button = sender as RadioButton;
-            if (button.IsChecked ?? true)
-            {
-                ((RuntimeAuthSelectionPageViewModel)this.DataContext).RuntimeAuthOptions=RuntimeAuthOptions.BasicAuth;
-            }
-            else
-            {
-                ((RuntimeAuthSelectionPageViewModel)this.DataContext).RuntimeAuthOptions=RuntimeAuthOptions.None;
-            }
-        }
     }
 
 }

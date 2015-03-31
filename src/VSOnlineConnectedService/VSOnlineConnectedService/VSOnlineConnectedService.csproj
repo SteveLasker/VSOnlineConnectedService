@@ -91,6 +91,8 @@
     <Compile Include="RuntimeAuthOptions.cs" />
     <Resource Include="Templates\BasicAuthTemplate.cs" />
     <Resource Include="Templates\IntegratedAuthTemplate.cs" />
+    <Resource Include="Templates\ServiceAuthTemplate.cs" />
+    <Compile Include="ViewModels\EnumToBooleanValueConverter.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\TeamProjectSelectionViewModel.cs" />
     <Compile Include="ViewModels\RuntimeAuthSelectionPageViewModel.cs" />
