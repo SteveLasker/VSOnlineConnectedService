@@ -21,7 +21,7 @@ namespace VSOnlineConnectedService
         {
             //TODO: need to revisit my singleton approach and how TFSEConnectedServiceInstances are passed around.  
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding References");
-            this.AddAssemblyReferences(context);
+            await this.AddAssemblyReferences(context);
 
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding Config values");
             this.UpdateConfig(context);
@@ -32,7 +32,7 @@ namespace VSOnlineConnectedService
             return new AddServiceInstanceResult(context.ServiceInstance.Name, new System.Uri("https://msdn.microsoft.com/en-us/library/bb130347.aspx"));
         }
 
-        private void AddAssemblyReferences(ConnectedServiceHandlerContext context)
+        private async Task AddAssemblyReferences(ConnectedServiceHandlerContext context)
         {
             //Add required assemblies for connecting to TFS WorkItemStore.
             //NOTE: In Dev 14 Preview, the TFS assemblies aren't in the GAC, so we need to reference them by their full path.
@@ -52,8 +52,8 @@ namespace VSOnlineConnectedService
 
             // TODO: Files should be CopyToOutput = True
             // hoping there's an updated NuGet soon to avoid having to do this, or eliminate these native dlls alltogether
-            context.HandlerHelper.AddFileAsync(rootDir + "Microsoft.WITDataStore32.dll", "Microsoft.WITDataStore32.dll").Wait();
-            context.HandlerHelper.AddFileAsync(rootDir + "Microsoft.WITDataStore64.dll", "Microsoft.WITDataStore64.dll").Wait();
+            await context.HandlerHelper.AddFileAsync(rootDir + "Microsoft.WITDataStore32.dll", "Microsoft.WITDataStore32.dll");
+            await context.HandlerHelper.AddFileAsync(rootDir + "Microsoft.WITDataStore64.dll", "Microsoft.WITDataStore64.dll");
 
             //Need to add this reference for reading values from the .config file
             context.HandlerHelper.AddAssemblyReference("System.Configuration");
