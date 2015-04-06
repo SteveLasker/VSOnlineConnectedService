@@ -49,6 +49,7 @@ namespace VSOnlineConnectedService
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding References");
             //Need to add this reference for reading values from the .config file
             context.HandlerHelper.AddAssemblyReference("System.Configuration");
+            context.HandlerHelper.AddAssemblyReference("System.ComponentModel.DataAnnotations");
         }
 
         private async Task AddNuGetPackagesAsync(ConnectedServiceHandlerContext context, Project project)
@@ -81,7 +82,7 @@ namespace VSOnlineConnectedService
                 configHelper.SetAppSetting(tfsContext.Name + CONFIGKEY_TFSURI, tfsContext.VSOnlineUri, comment:"VSOnline");
                 configHelper.SetAppSetting(tfsContext.Name + CONFIGKEY_TEAMPROJECTNAME, tfsContext.TeamProjectName);
                 configHelper.SetAppSetting(tfsContext.Name + CONFIGKEY_TEAMPROJECTCOLLECTIONNAME, tfsContext.TeamProjectCollectionName);
-                if (tfsContext.RuntimeAuthOption == RuntimeAuthOptions.BasicAuth)
+                if (tfsContext.RuntimeAuthOption == RuntimeAuthOptions.UsernamePasswordServiceAuth)
                 {
                     configHelper.SetAppSetting(tfsContext.Name + CONFIGKEY_USERNAME, "RequiredValue");
                     configHelper.SetAppSetting(tfsContext.Name + CONFIGKEY_PASSWORD, "RequiredValue");
@@ -107,6 +108,8 @@ namespace VSOnlineConnectedService
                     break;
                 case RuntimeAuthOptions.UsernamePasswordServiceAuth:
                     templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/ServiceAuthTemplate.cs";
+                    context.HandlerHelper.TokenReplacementValues.Add("Instance:Username", tfsContext.Name +  CONFIGKEY_USERNAME);
+                    context.HandlerHelper.TokenReplacementValues.Add("Instance:Password", tfsContext.Name + CONFIGKEY_PASSWORD);
                     break;
                 default:
                     throw new InvalidOperationException("Unsupported runtime authentication option:" + tfsContext.RuntimeAuthOption);
@@ -115,15 +118,24 @@ namespace VSOnlineConnectedService
             // Generate a code file into the user's project from a template. 
             // The tokens in the template will be replaced by the HandlerHelper. 
             // Place service specific scaffolded code under the service folder 
+            context.HandlerHelper.TokenReplacementValues.Add("Instance:Endpoint", tfsContext.Name + CONFIGKEY_TFSURI);
+            context.HandlerHelper.TokenReplacementValues.Add("Instance:TeamProjectName", tfsContext.Name + CONFIGKEY_TEAMPROJECTNAME);
+            context.HandlerHelper.TokenReplacementValues.Add("Instance:TeamProjectCollectionName", tfsContext.Name + CONFIGKEY_TEAMPROJECTCOLLECTIONNAME);
+
             string serviceFolder = string.Format("Service References\\{0}\\", tfsContext.Name);
-            context.HandlerHelper.TokenReplacementValues.Add("Instance.VSOnlineUri", tfsContext.Name + CONFIGKEY_TFSURI);
-            context.HandlerHelper.TokenReplacementValues.Add("Instance.TeamProjectName", tfsContext.Name + CONFIGKEY_TEAMPROJECTNAME);
-            context.HandlerHelper.TokenReplacementValues.Add("Instance.TeamProjectCollectionName", tfsContext.Name + CONFIGKEY_TEAMPROJECTCOLLECTIONNAME);
 
             await context.HandlerHelper.AddFileAsync(templateResourceUri, 
                 Path.Combine(context.HandlerHelper.GetServiceArtifactsRootFolder(), 
-                             context.ServiceInstance.Name, 
-                             "TFSWorkItemStoreConnector.cs"));
+                             context.ServiceInstance.Name,
+                             "VSOnlineService.cs"));
+
+            templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/WorkItem.cs";
+            await context.HandlerHelper.AddFileAsync(templateResourceUri,
+                Path.Combine("Models",
+                                    context.ServiceInstance.Name,
+                                    "WorkItem.cs"));
+                                    
+
         }
     }
 }
