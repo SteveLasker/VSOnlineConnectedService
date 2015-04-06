@@ -1,10 +1,20 @@
-﻿using Microsoft.VisualStudio.ConnectedServices;
+﻿using EnvDTE;
+using Microsoft.VisualStudio.ConnectedServices;
+using Microsoft.VisualStudio.TextTemplating;
+using Microsoft.VisualStudio.Threading;
+using NuGet.VisualStudio;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Shell = Microsoft.VisualStudio.Shell;
 
+using VSOnlineConnectedService.Utilities;
 namespace VSOnlineConnectedService
 {
     [ConnectedServiceHandlerExport(
@@ -12,55 +22,58 @@ namespace VSOnlineConnectedService
         AppliesTo = "CSharp")]
     public class Handler : ConnectedServiceHandler
     {
-        private const string CONFIGKEY_TFSURI = "_TFSUri";
-        private const string CONFIGKEY_TEAMPROJECTNAME = "_TeamProjectName";
-        private const string CONFIGKEY_TEAMPROJECTCOLLECTIONNAME = "_TeamProjectCollectionName";
-        private const string CONFIGKEY_USERNAME = "_UserName";
-        private const string CONFIGKEY_PASSWORD = "_Password";
+        private const string CONFIGKEY_TFSURI = ":Endpoint";
+        private const string CONFIGKEY_TEAMPROJECTNAME = ":TeamProjectName";
+        private const string CONFIGKEY_TEAMPROJECTCOLLECTIONNAME = ":TeamProjectCollectionName";
+        private const string CONFIGKEY_USERNAME = ":UserName";
+        private const string CONFIGKEY_PASSWORD = ":Password";
+
+        [Import]
+        internal IVsPackageInstaller PackageInstaller { get; set; }
+
         public override async Task<AddServiceInstanceResult> AddServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
         {
-            //TODO: need to revisit my singleton approach and how TFSEConnectedServiceInstances are passed around.  
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding References");
+            Project project = ProjectHelper.GetProjectFromHierarchy(context.ProjectHierarchy);
+
             await this.AddAssemblyReferences(context);
-
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding Config values");
-            this.UpdateConfig(context);
-
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Scaffolding Code");
+            await this.AddNuGetPackagesAsync(context, project);
+            await this.UpdateConfig(context);
             await this.GenerateScaffolding(context);
 
-            return new AddServiceInstanceResult(context.ServiceInstance.Name, new System.Uri("https://msdn.microsoft.com/en-us/library/bb130347.aspx"));
+            return new AddServiceInstanceResult(context.ServiceInstance.Name, 
+                new System.Uri("https://msdn.microsoft.com/en-us/library/bb130347.aspx"));
         }
 
         private async Task AddAssemblyReferences(ConnectedServiceHandlerContext context)
         {
-            //Add required assemblies for connecting to TFS WorkItemStore.
-            //NOTE: In Dev 14 Preview, the TFS assemblies aren't in the GAC, so we need to reference them by their full path.
-            //This handler assumes that VS is installed under Program Files for either 32-bit or 64-bit machine; we could update this code to look in the registry, but this is simpler for now.
-            string x86Dir = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            string rootDir = String.IsNullOrEmpty(x86Dir) ? Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) : x86Dir;
-            rootDir += @"\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\";
-
-            context.HandlerHelper.AddAssemblyReference(rootDir + "Microsoft.TeamFoundation.Client.dll");
-            context.HandlerHelper.AddAssemblyReference(rootDir + "Microsoft.TeamFoundation.Common.dll");
-            context.HandlerHelper.AddAssemblyReference(rootDir + "Microsoft.TeamFoundation.WorkItemTracking.Client.dll");
-            context.HandlerHelper.AddAssemblyReference(rootDir + "Microsoft.VisualStudio.Services.Common.dll");
-
-            //TODO: This code isn't correct - it's copying the assemblies to the runtime dir of this project instead of
-            //of the runtime dir of the target project.
-            //Need to copy the following assemblies to the local runtime folder; this is because these assemblies aren't in the GAC
-
-            // TODO: Files should be CopyToOutput = True
-            // hoping there's an updated NuGet soon to avoid having to do this, or eliminate these native dlls alltogether
-            await context.HandlerHelper.AddFileAsync(rootDir + "Microsoft.WITDataStore32.dll", "Microsoft.WITDataStore32.dll");
-            await context.HandlerHelper.AddFileAsync(rootDir + "Microsoft.WITDataStore64.dll", "Microsoft.WITDataStore64.dll");
-
+            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding References");
             //Need to add this reference for reading values from the .config file
             context.HandlerHelper.AddAssemblyReference("System.Configuration");
         }
 
-        private void UpdateConfig(ConnectedServiceHandlerContext context)
+        private async Task AddNuGetPackagesAsync(ConnectedServiceHandlerContext context, Project project)
         {
+            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding Nuget Packages");
+            //TODO: Wait for fix to PackageInstaller, which is currently throwing errors indicating a invalid solution file
+            //PackageInstaller.InstallPackage("nuget.org", project, "Newtonsoft.Json", "6.0.8", false);
+            //this.PackageInstaller.InstallPackagesFromVSExtensionRepository(
+            //    "Salesforce.VisualStudio.Services.7E67A4F0-A59D-46ED-AD77-917BE0405FFF",
+            //    false,
+            //    false,
+            //    project,
+            //    new Dictionary<string, string> {
+            //        { "DeveloperForce.Force", "0.6.4" },
+            //        { "Microsoft.Bcl", "1.1.9" },
+            //        { "Microsoft.Bcl.Async", "1.0.168" },
+            //        { "Microsoft.Bcl.Build", "1.0.14" },
+            //        { "Microsoft.Net.Http", "2.2.28" },
+            //        { "Newtonsoft.Json", "6.0.5" },
+            //    });
+        }
+
+        private async Task UpdateConfig(ConnectedServiceHandlerContext context)
+        {
+            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding Config values");
             Instance tfsContext = (Instance)context.ServiceInstance;
 
             using (EditableXmlConfigHelper configHelper = context.CreateEditableXmlConfigHelper())
@@ -79,6 +92,7 @@ namespace VSOnlineConnectedService
 
         private async Task GenerateScaffolding(ConnectedServiceHandlerContext context)
         {
+            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Scaffolding Code");
             Instance tfsContext = (Instance)context.ServiceInstance;
 
             //Instance vsOnlineInstance = (Instance)context.ServiceInstance;

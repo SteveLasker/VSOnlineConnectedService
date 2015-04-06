@@ -37,17 +37,13 @@ namespace VSOnlineConnectedService.ViewModels
                 this._authSelection.IsEnabled = true;
             }
 
-            // Is Runtime Auth Configured?
-            this._authSelection.HasErrors = false;
-
             // Should the Finish button be enabled?
             if (this._projectSelection.IsEnabled &&
-                this._authSelection.IsEnabled)
+                this._authSelection.RuntimeAuthOptions != RuntimeAuthOptions.None)
             {
                 this.IsFinishEnabled = true;
             }
         }
-
 
         public override Task<ConnectedServiceInstance> GetFinishedServiceInstanceAsync()
         {

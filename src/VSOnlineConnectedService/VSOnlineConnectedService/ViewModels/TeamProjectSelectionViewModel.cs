@@ -9,7 +9,9 @@ using VSOnlineConnectedService;
 using System.Diagnostics;
 using System.Windows.Forms;
 using VSOnlineConnectedService.Views;
-
+using System.Windows;
+using System.Windows.Interop;
+using Microsoft.TeamFoundation.Server;
 namespace VSOnlineConnectedService.ViewModels
 {
     public class TeamProjectSelectionViewModel : ConnectedServiceWizardPage
@@ -80,13 +82,14 @@ namespace VSOnlineConnectedService.ViewModels
             }
         }
 
-
         public void GetTFSConfiguration()
         {
             //To keep things simple, only allow a single team project to be selected using the TFS picker control
             using (TeamProjectPicker tpp = new TeamProjectPicker(TeamProjectPickerMode.SingleProject, false))
             {
-                var result = tpp.ShowDialog();
+                tpp.Text = "Select your VSOnline Intance";
+                var result = tpp.ShowDialog(Utilities.WPFWindowHelper.GetIWin32ParentWindow(this.View));
+
                 if (result == DialogResult.OK)
                 {
                     //Store the TFS picker control's selections to be used later in scaffolding
@@ -100,8 +103,6 @@ namespace VSOnlineConnectedService.ViewModels
                     this.TeamProjectName = tpp.SelectedProjects[0].Name;
                 }
             }
-            // After configuration, trigger state validation to set the buttons
-            //((ServiceWizard)(this.Wizard)).ValidateState();
         }
     }
 }
