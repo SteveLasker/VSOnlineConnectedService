@@ -56,7 +56,7 @@ namespace VSOnlineConnectedService
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding Nuget Packages");
             //TODO: Wait for fix to PackageInstaller, which is currently throwing errors indicating a invalid solution file
-            //PackageInstaller.InstallPackage("nuget.org", project, "Newtonsoft.Json", "6.0.8", false);
+            //PackageInstaller.InstallPackage("api.nuget.org", project, "Newtonsoft.Json", "6.0.8", false);
             //this.PackageInstaller.InstallPackagesFromVSExtensionRepository(
             //    "Salesforce.VisualStudio.Services.7E67A4F0-A59D-46ED-AD77-917BE0405FFF",
             //    false,
@@ -73,6 +73,8 @@ namespace VSOnlineConnectedService
 
         private async Task UpdateConfig(ConnectedServiceHandlerContext context)
         {
+            
+            await Shell.ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); // The EditableConfigHelper must run on the UI thread.
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding Config values");
             Instance tfsContext = (Instance)context.ServiceInstance;
 

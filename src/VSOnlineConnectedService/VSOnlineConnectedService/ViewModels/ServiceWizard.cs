@@ -20,12 +20,14 @@ namespace VSOnlineConnectedService.ViewModels
             this.Pages.Add(_projectSelection);
             this.Pages.Add(_authSelection);
             this.Pages.Add(_options);
+            
 
             foreach (var page in this.Pages)
             {
                 page.PropertyChanged += this.PageViewModel_PropertyChangd;
             }
         }
+        public ConnectedServiceProviderContext Context { get; set; }
         private void PageViewModel_PropertyChangd(object sender, PropertyChangedEventArgs e)
         {
             // Is the Server configured?

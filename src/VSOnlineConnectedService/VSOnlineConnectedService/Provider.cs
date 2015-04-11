@@ -30,7 +30,8 @@ namespace VSOnlineConnectedService
 
         public override Task<ConnectedServiceConfigurator> CreateConfiguratorAsync(ConnectedServiceProviderContext context)
         {
-            return Task.FromResult<ConnectedServiceConfigurator>(new ServiceWizard());
+
+            return Task.FromResult<ConnectedServiceConfigurator>(new ServiceWizard() { Context = context });
         }
     }
 }
