@@ -67,8 +67,7 @@ namespace VSOnlineConnectedService
             //        { "Microsoft.Bcl", "1.1.9" },
             //        { "Microsoft.Bcl.Async", "1.0.168" },
             //        { "Microsoft.Bcl.Build", "1.0.14" },
-            //        { "Microsoft.Net.Http", "2.2.28" },
-            //        { "Newtonsoft.Json", "6.0.5" },
+            //        { "Microsoft.Net.Http", "2.2.28" }
             //    });
         }
 
@@ -96,7 +95,6 @@ namespace VSOnlineConnectedService
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Scaffolding Code");
             Instance tfsContext = (Instance)context.ServiceInstance;
 
-            //Instance vsOnlineInstance = (Instance)context.ServiceInstance;
             string templateResourceUri = null;
             switch (tfsContext.RuntimeAuthOption)
             {
