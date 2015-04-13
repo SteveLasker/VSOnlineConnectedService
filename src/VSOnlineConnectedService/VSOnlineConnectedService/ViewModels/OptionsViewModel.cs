@@ -22,18 +22,6 @@ namespace VSOnlineConnectedService.ViewModels
             this.View = new OptionsView();
             this.View.DataContext = this;
         }
-        public override Task OnPageEnteringAsync(WizardEnteringArgs args)
-        {
-            // Default the ServiceName to the name of the Project + VSO for Visual Studio Online
-            // Only set if it's not already set
-            if (string.IsNullOrWhiteSpace(this.ServiceName))
-            {
-                Project project = ProjectHelper.GetProjectFromHierarchy(((ViewModels.ServiceWizard)(this.Wizard)).Context.ProjectHierarchy);
-                this.ServiceName = project.Name + "VSO";
-            }
-
-            return base.OnPageEnteringAsync(args);
-        }
         private string _serviceName;
 
         public string ServiceName

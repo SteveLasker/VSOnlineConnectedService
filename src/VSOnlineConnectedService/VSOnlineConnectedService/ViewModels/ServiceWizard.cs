@@ -6,6 +6,9 @@ using Microsoft.VisualStudio.ConnectedServices;
 
 using Microsoft.TeamFoundation.Client;
 using VSOnlineConnectedService.ViewModels;
+using VSOnlineConnectedService.Utilities;
+using EnvDTE;
+
 namespace VSOnlineConnectedService.ViewModels
 {
     internal class ServiceWizard : ConnectedServiceWizard
@@ -21,11 +24,16 @@ namespace VSOnlineConnectedService.ViewModels
             this.Pages.Add(_authSelection);
             this.Pages.Add(_options);
             
-
             foreach (var page in this.Pages)
             {
                 page.PropertyChanged += this.PageViewModel_PropertyChangd;
             }
+        }
+
+        internal void Initialize()
+        {
+            Project project = ProjectHelper.GetProjectFromHierarchy(this.Context.ProjectHierarchy);
+            _options.ServiceName= project.Name + "VSO";
         }
         public ConnectedServiceProviderContext Context { get; set; }
         private void PageViewModel_PropertyChangd(object sender, PropertyChangedEventArgs e)
@@ -40,8 +48,7 @@ namespace VSOnlineConnectedService.ViewModels
             }
 
             // Should the Finish button be enabled?
-            if (this._projectSelection.IsEnabled &&
-                this._authSelection.RuntimeAuthOptions != RuntimeAuthOptions.None)
+            if (this._projectSelection.IsEnabled &&                this._authSelection.RuntimeAuthOptions != RuntimeAuthOptions.None)
             {
                 this.IsFinishEnabled = true;
             }

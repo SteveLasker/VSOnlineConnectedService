@@ -10,7 +10,7 @@ namespace $rootnamespace$
     public class WorkItem
     {
         [JsonProperty("System.Id")]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("System.Title")]
         public string Title { get; set; }
