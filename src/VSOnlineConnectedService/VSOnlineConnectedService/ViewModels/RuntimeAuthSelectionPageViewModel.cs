@@ -21,7 +21,7 @@ namespace VSOnlineConnectedService.ViewModels
             this.View.DataContext = this;
         }
 
-        private RuntimeAuthOptions _runtimeAuthOptions = RuntimeAuthOptions.None;
+        private RuntimeAuthOptions _runtimeAuthOptions = RuntimeAuthOptions.UsernamePasswordServiceAuth;
 
         public RuntimeAuthOptions RuntimeAuthOptions
         {
