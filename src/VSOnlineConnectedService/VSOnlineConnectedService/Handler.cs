@@ -55,20 +55,14 @@ namespace VSOnlineConnectedService
         private async Task AddNuGetPackagesAsync(ConnectedServiceHandlerContext context, Project project)
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding Nuget Packages");
-            //TODO: Wait for fix to PackageInstaller, which is currently throwing errors indicating a invalid solution file
-            //PackageInstaller.InstallPackage("api.nuget.org", project, "Newtonsoft.Json", "6.0.8", false);
-            //this.PackageInstaller.InstallPackagesFromVSExtensionRepository(
-            //    "Salesforce.VisualStudio.Services.7E67A4F0-A59D-46ED-AD77-917BE0405FFF",
-            //    false,
-            //    false,
-            //    project,
-            //    new Dictionary<string, string> {
-            //        { "DeveloperForce.Force", "0.6.4" },
-            //        { "Microsoft.Bcl", "1.1.9" },
-            //        { "Microsoft.Bcl.Async", "1.0.168" },
-            //        { "Microsoft.Bcl.Build", "1.0.14" },
-            //        { "Microsoft.Net.Http", "2.2.28" }
-            //    });
+            this.PackageInstaller.InstallPackagesFromVSExtensionRepository(
+                "VSOnlineConnectedService.e30335d6-f9c7-4d08-b422-f011f3f18477",
+                false,
+                false,
+                project,
+                new Dictionary<string, string> {
+                    { "Newtonsoft.Json", "6.0.8" }
+                });
         }
 
         private async Task UpdateConfig(ConnectedServiceHandlerContext context)
