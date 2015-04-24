@@ -123,12 +123,14 @@ namespace $rootnamespace$
             string username = GetConfigValue("$Instance:Username$");
             string password = GetConfigValue("$Instance:Password$");
 
+            #error update app/web.config with the UserName/Password, then delete this line of code
+        
             // using basic auth for Service Account Scenario
             //TODO: Add OAuth support
             client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Basic",
-                Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", username, password))));
-            return client;
+                    new AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", username, password))));
+                return client;
         }
 
         /// <summary>

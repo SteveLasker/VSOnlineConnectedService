@@ -32,8 +32,7 @@ namespace VSOnlineConnectedService.ViewModels
 
         internal void Initialize()
         {
-            Project project = ProjectHelper.GetProjectFromHierarchy(this.Context.ProjectHierarchy);
-            _options.ServiceName= project.Name + "VSO";
+            _options.ServiceName = "VSOnline";
         }
         public ConnectedServiceProviderContext Context { get; set; }
         private void PageViewModel_PropertyChangd(object sender, PropertyChangedEventArgs e)

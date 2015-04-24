@@ -119,7 +119,7 @@ namespace VSOnlineConnectedService
             string serviceFolder = string.Format("Service References\\{0}\\", tfsContext.Name);
 
             await context.HandlerHelper.AddFileAsync(templateResourceUri, 
-                Path.Combine(context.HandlerHelper.GetServiceArtifactsRootFolder(), 
+                Path.Combine(context.HandlerHelper.GetServiceArtifactsRootFolder(),
                              context.ServiceInstance.Name,
                              "VSOnlineService.cs"));
 
