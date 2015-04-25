@@ -21,9 +21,8 @@ Add the following code, noting the change to your projects namespace:
 	    {
 	        public async Task<ActionResult> Index()
 	        {
-	            VSOnlineService service = new VSOnlineService();
 	            string query = "Select [System.Id] From WorkItems Where[System.WorkItemType] = 'Bug' order by [System.CreatedDate] desc";
-	            List<WorkItem> workItems = await service.GetWorkItems<WorkItem>(query);
+	            List<WorkItem> workItems = await new VSOnlineService().GetWorkItems<WorkItem>(query);
 	
 	            return View(workItems);
 	        }
