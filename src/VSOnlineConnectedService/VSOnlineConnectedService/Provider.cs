@@ -17,7 +17,7 @@ namespace VSOnlineConnectedService
             this.Name = "VSOnline - Work Item Tracking Sample";
             this.Description = "Provides connection to Visual Studio Online WorkItemStore service used for tracking work items in a Team Project.";
             this.CreatedBy = "Steve Lasker";
-            this.Version = new Version(1, 0, 0);
+            this.Version = new Version(1, 0, 0, 6);
             this.MoreInfoUri = new Uri("https://github.com/SteveLasker/VSOnlineConnectedServiceProvider");
             this.Icon = new BitmapImage(new Uri("pack://application:,,/" + Assembly.GetExecutingAssembly().ToString() + ";component/" + "Resources/Icon.png"));
         }

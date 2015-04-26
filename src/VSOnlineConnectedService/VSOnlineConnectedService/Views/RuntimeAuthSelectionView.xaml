@@ -14,9 +14,15 @@
     <StackPanel Margin="0,0,10,0">
         <GroupBox Margin="25, 10, 0, 0" x:Name="groupBox" Header="Runtime Authentication Options" HorizontalAlignment="Left" VerticalAlignment="Top">
             <StackPanel Margin="25, 10, 0, 0">
-                <RadioButton Content="Basic Authentication" IsChecked="{Binding Path=RuntimeAuthOptions, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=BasicAuth}" IsEnabled="False" FontWeight="Bold" />
+                <RadioButton Content="Basic Authentication" IsChecked="{Binding Path=RuntimeAuthOptions, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=BasicAuth}" FontWeight="Bold" 
+                             IsEnabled="False" 
+                             ToolTip="Not supported in this version"
+                             ToolTipService.ShowOnDisabled="True"/>
                 <TextBlock FontSize="14" Margin="25, 0, 0, 0" TextWrapping="Wrap" >The scaffolding code will provide a prompt for non-default credentials to be specified at runtime to authenticate to VSOnline.</TextBlock>
-                <RadioButton Margin="0, 25, 0, 0" Content="Integrated Authentication" IsChecked="{Binding Path=RuntimeAuthOptions, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=IntegratedAuth}" IsEnabled="False" FontWeight="Bold"/>
+                <RadioButton Margin="0, 25, 0, 0" Content="Integrated Authentication" IsChecked="{Binding Path=RuntimeAuthOptions, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=IntegratedAuth}" FontWeight="Bold"  
+                             IsEnabled="False" 
+                             ToolTip="Not supported in this version"
+                             ToolTipService.ShowOnDisabled="True"/>
                 <TextBlock FontSize="14" Margin="25, 0, 0, 0" TextWrapping="Wrap">The scaffolding code will use the runtime caller's Windows credentials to authenticate to VSOnline.</TextBlock>
                 <RadioButton Margin="0, 25, 0, 0" Content="Service Account w/Username and Password" IsChecked="{Binding Path=RuntimeAuthOptions, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=UsernamePasswordServiceAuth}" FontWeight="Bold"/>
                 <TextBlock FontSize="14" Margin="25, 0, 0, 0" TextWrapping="Wrap">The scaffolding code will use the runtime caller's Windows credentials to authenticate to VSOnline.</TextBlock>

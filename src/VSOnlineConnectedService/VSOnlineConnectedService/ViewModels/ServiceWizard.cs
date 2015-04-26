@@ -47,7 +47,9 @@ namespace VSOnlineConnectedService.ViewModels
             }
 
             // Should the Finish button be enabled?
-            if (this._projectSelection.IsEnabled &&                this._authSelection.RuntimeAuthOptions != RuntimeAuthOptions.None)
+            if (!string.IsNullOrWhiteSpace(this._projectSelection.VSOnlineURI) &&
+                this._projectSelection.IsEnabled &&
+                this._authSelection.RuntimeAuthOptions != RuntimeAuthOptions.None)
             {
                 this.IsFinishEnabled = true;
             }
