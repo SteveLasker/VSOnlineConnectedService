@@ -37,11 +37,11 @@ namespace VSOnlineConnectedService
 
             await this.AddAssemblyReferences(context);
             await this.AddNuGetPackagesAsync(context, project);
-            await this.UpdateConfig(context);
+            await this.UpdateConfigAsync(context);
             await this.GenerateScaffolding(context);
 
             return new AddServiceInstanceResult(context.ServiceInstance.Name, 
-                new System.Uri(Properties.Resources.GettingStartedURL));
+                new Uri(Properties.Resources.GettingStartedURL));
         }
 
         private async Task AddAssemblyReferences(ConnectedServiceHandlerContext context)
@@ -65,22 +65,22 @@ namespace VSOnlineConnectedService
                 });
         }
 
-        private async Task UpdateConfig(ConnectedServiceHandlerContext context)
+        private async Task UpdateConfigAsync(ConnectedServiceHandlerContext context)
         {
             
             await Shell.ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); // The EditableConfigHelper must run on the UI thread.
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding Config values");
-            Instance tfsContext = (Instance)context.ServiceInstance;
+            Instance instance = (Instance)context.ServiceInstance;
 
             using (EditableXmlConfigHelper configHelper = context.CreateEditableXmlConfigHelper())
             {
-                configHelper.SetAppSetting(tfsContext.Name + CONFIGKEY_TFSURI, tfsContext.VSOnlineUri, comment:"VSOnline");
-                configHelper.SetAppSetting(tfsContext.Name + CONFIGKEY_TEAMPROJECTNAME, tfsContext.TeamProjectName);
-                configHelper.SetAppSetting(tfsContext.Name + CONFIGKEY_TEAMPROJECTCOLLECTIONNAME, tfsContext.TeamProjectCollectionName);
-                if (tfsContext.RuntimeAuthOption == RuntimeAuthOptions.UsernamePasswordServiceAuth)
+                configHelper.SetAppSetting(instance.Name + CONFIGKEY_TFSURI, instance.VSOnlineUri, comment:"VSOnline");
+                configHelper.SetAppSetting(instance.Name + CONFIGKEY_TEAMPROJECTNAME, instance.TeamProjectName);
+                configHelper.SetAppSetting(instance.Name + CONFIGKEY_TEAMPROJECTCOLLECTIONNAME, instance.TeamProjectCollectionName);
+                if (instance.RuntimeAuthOption == RuntimeAuthOptions.UsernamePasswordServiceAuth)
                 {
-                    configHelper.SetAppSetting(tfsContext.Name + CONFIGKEY_USERNAME, "RequiredValue");
-                    configHelper.SetAppSetting(tfsContext.Name + CONFIGKEY_PASSWORD, "RequiredValue");
+                    configHelper.SetAppSetting(instance.Name + CONFIGKEY_USERNAME, "RequiredValue");
+                    configHelper.SetAppSetting(instance.Name + CONFIGKEY_PASSWORD, "RequiredValue");
                 }
                 configHelper.Save();
             }
