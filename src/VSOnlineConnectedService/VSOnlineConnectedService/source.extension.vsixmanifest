@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="VSOnlineConnectedService.e30335d6-f9c7-4d08-b422-f011f3f18477" Version="1.0.0.4" Language="en-US" Publisher="Steve Lasker" />
+    <Identity Id="VSOnlineConnectedService.e30335d6-f9c7-4d08-b422-f011f3f18477" Version="1.0.0.5" Language="en-US" Publisher="Steve Lasker" />
     <DisplayName>Visual Studio Online Connected Service Sample (RC)</DisplayName>
     <Description xml:space="preserve">A Sample Visual Studio 2015 RC Connected Service for Visual Studio Online</Description>
-    <MoreInfo>https://github.com/SteveLasker/VSOnlineConnectedServiceProvider</MoreInfo>
-    <GettingStartedGuide>https://github.com/SteveLasker/VSOnlineConnectedServiceProvider</GettingStartedGuide>
+    <MoreInfo>https://github.com/SteveLasker/VSOnlineConnectedService/blob/master/Docs/ReadMe.md</MoreInfo>
+    <GettingStartedGuide>https://github.com/SteveLasker/VSOnlineConnectedService/blob/master/Docs/ReadMe.md</GettingStartedGuide>
     <Icon>Resources\ExtensionIcon.png</Icon>
     <PreviewImage>Resources\ExtensionPreviewImage.png</PreviewImage>
     <Tags>ConnectedService; VSOnline; Visual Studio Online</Tags>

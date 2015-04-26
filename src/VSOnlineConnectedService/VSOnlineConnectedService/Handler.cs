@@ -41,7 +41,7 @@ namespace VSOnlineConnectedService
             await this.GenerateScaffolding(context);
 
             return new AddServiceInstanceResult(context.ServiceInstance.Name, 
-                new System.Uri("https://msdn.microsoft.com/en-us/library/bb130347.aspx"));
+                new System.Uri(Properties.Resources.GettingStartedURL));
         }
 
         private async Task AddAssemblyReferences(ConnectedServiceHandlerContext context)
