@@ -1,8 +1,20 @@
-#Getting Started#
+#What Happened#
+The following changes were made to your project
 
-Now that you have the Visual Studio Online Connected Service, lets add some sample code to use it.
+- A NuGet reference to `NewtonSoft.Json` was added
+- `app/web.config` values were added
+- A `VSOnlineService.cs` file was added, providing REST wrapper calls
+- A Model file representing a WorkItem was added to `\VSOnline\WorkItem.cs`  
 
+#Consuming Visual Studio Online in an ASP.NET MVC Application#
+To consume Visual Studio Online in an ASP.NET MVC Application we'll
+
+
+1. Add an MVC Controller 
+2. Add a Razor View
+2.   Add a Menu Item to the default ASP.NET MVC app navigation .cshtml files
 ##Adding a WorkItem Controller##
+
 - Right click on the Controllers folder and choose Add Controller
 - Name the controller **WorkItem**Controller
 
@@ -44,4 +56,6 @@ To view the results of our Controller query, add a view
 Add the following code to the menu 
 
 	<li>@Html.ActionLink("VSOnline WorkItems", "Index", "WorkItem")</li>
- 
+##Run the app##
+Hit F5, and try it out
+
