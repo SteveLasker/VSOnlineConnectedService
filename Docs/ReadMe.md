@@ -7,10 +7,10 @@ This Connected Service is currently just a sample to illustrate how to pull data
 
 ##State of the Connected Service##
 ###REST APIs###
-Visual Studio Online has been moving away from using the TFSClient sdk as we think of it today. They're in the process of expanding their REST APIs, and I got an early sample to illustrate the REST usage. 
+Visual Studio Online has been improving their API access to include REST. This Connected Service includes an early sample to illustrate the REST usage. 
 
 - The current version simply provides ReadOnly access to WorkItems
-- Is limited to ServiceAccount auth scenarios that require a UserName/Password in your project. 
+- Is limited to ServiceAccount Auth scenarios that require a UserName/Password in your project. 
 
 ##Code Contributions##
 I do hope to improve upon this Connected Service. If you have an interest in spending more time, please feel free to create a fork and make a pull request. 
