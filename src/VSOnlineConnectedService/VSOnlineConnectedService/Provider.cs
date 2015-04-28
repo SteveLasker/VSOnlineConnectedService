@@ -13,13 +13,12 @@ namespace VSOnlineConnectedService
     {
         public Provider()
         {
-            this.Category = "Microsoft";
-            this.Name = "VSOnline - Work Item Tracking Sample";
-            this.Description = "Provides connection to Visual Studio Online WorkItemStore service used for tracking work items in a Team Project.";
-            this.CreatedBy = "Steve Lasker";
-            this.Version = new Version(1, 0, 0, 6);
-            this.MoreInfoUri = new Uri("https://github.com/SteveLasker/VSOnlineConnectedServiceProvider");
-            this.Icon = new BitmapImage(new Uri("pack://application:,,/" + Assembly.GetExecutingAssembly().ToString() + ";component/" + "Resources/Icon.png"));
+            Category = "Microsoft";
+            Name = "Visual Studio Online - Work Item Tracking Sample";
+            Description = "Manage Work Items in Visual Studio Online."; this.CreatedBy = "Steve Lasker";
+            Version = new Version(1, 0, 0, 7);
+            MoreInfoUri = new Uri("https://github.com/SteveLasker/VSOnlineConnectedServiceProvider");
+            Icon = new BitmapImage(new Uri("pack://application:,,/" + Assembly.GetExecutingAssembly().ToString() + ";component/" + "Resources/Icon.png"));
         }
 
         public override IEnumerable<Tuple<string, Uri>> GetSupportedTechnologyLinks()

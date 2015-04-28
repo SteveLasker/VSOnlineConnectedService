@@ -13,9 +13,9 @@ namespace VSOnlineConnectedService.ViewModels
     {
         public RuntimeAuthSelectionPageViewModel()
         {
-            this.Legend = "Runtime Auth";
-            this.Title = "VSOnline: Configure Runtime Authentication";
-            this.Description = "How will you authenticate TFS at runtime?";
+            this.Legend = Properties.Resources.RunttimeAuthPageLegend;
+            this.Title = Properties.Resources.RuntimeAuthPageTitle;
+            this.Description = Properties.Resources.RuntimeAuthPageDescription;
             this.IsEnabled = false;
             this.View = new RuntimeAuthSelectionView();
             this.View.DataContext = this;

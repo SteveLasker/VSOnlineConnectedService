@@ -30,7 +30,10 @@ namespace VSOnlineConnectedService
 
         [Import]
         internal IVsPackageInstaller PackageInstaller { get; set; }
-
+        [Import]
+        internal IVsPackageUninstaller PackageUninstaller { get; set; }
+        [Import]
+        internal IVsPackageInstallerServices PackageInstallerServices { get; set; }
         public override async Task<AddServiceInstanceResult> AddServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
         {
             Project project = ProjectHelper.GetProjectFromHierarchy(context.ProjectHierarchy);
@@ -55,14 +58,17 @@ namespace VSOnlineConnectedService
         private async Task AddNuGetPackagesAsync(ConnectedServiceHandlerContext context, Project project)
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding Nuget Packages");
-            this.PackageInstaller.InstallPackagesFromVSExtensionRepository(
-                "VSOnlineConnectedService.e30335d6-f9c7-4d08-b422-f011f3f18477",
-                false,
-                false,
-                project,
-                new Dictionary<string, string> {
+            if (!PackageInstallerServices.IsPackageInstalled(project, "Newtonsoft.Json"))
+            {
+                PackageInstaller.InstallPackagesFromVSExtensionRepository(
+                    "VSOnlineConnectedService.e30335d6-f9c7-4d08-b422-f011f3f18477",
+                    false,
+                    false,
+                    project,
+                    new Dictionary<string, string> {
                     { "Newtonsoft.Json", "6.0.8" }
                 });
+            }
         }
 
         private async Task UpdateConfigAsync(ConnectedServiceHandlerContext context)
@@ -79,8 +85,11 @@ namespace VSOnlineConnectedService
                 configHelper.SetAppSetting(instance.Name + CONFIGKEY_TEAMPROJECTCOLLECTIONNAME, instance.TeamProjectCollectionName);
                 if (instance.RuntimeAuthOption == RuntimeAuthOptions.UsernamePasswordServiceAuth)
                 {
-                    configHelper.SetAppSetting(instance.Name + CONFIGKEY_USERNAME, "RequiredValue");
-                    configHelper.SetAppSetting(instance.Name + CONFIGKEY_PASSWORD, "RequiredValue");
+                    if (!configHelper.IsPrefixUsedInAppSettings(instance.Name + CONFIGKEY_USERNAME))
+                    {
+                        configHelper.SetAppSetting(instance.Name + CONFIGKEY_USERNAME, "RequiredValue");
+                        configHelper.SetAppSetting(instance.Name + CONFIGKEY_PASSWORD, "RequiredValue");
+                    }
                 }
                 configHelper.Save();
             }

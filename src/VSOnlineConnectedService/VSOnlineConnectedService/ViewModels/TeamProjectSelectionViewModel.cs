@@ -19,9 +19,9 @@ namespace VSOnlineConnectedService.ViewModels
         TeamProjectSelectionView _tpsUserCtrl;
         public TeamProjectSelectionViewModel()
         {
-            this.Legend = "Connection";
-            this.Title = "VSOnline: Configure the Connection";
-            this.Description = "Select the Team Server";
+            this.Legend = 
+            this.Title = Properties.Resources.TeamProjectPageTitle;
+            this.Description = Properties.Resources.TeamProjectPageDescription;
 
             _tpsUserCtrl = new TeamProjectSelectionView();
 
@@ -87,7 +87,7 @@ namespace VSOnlineConnectedService.ViewModels
             //To keep things simple, only allow a single team project to be selected using the TFS picker control
             using (TeamProjectPicker tpp = new TeamProjectPicker(TeamProjectPickerMode.SingleProject, false))
             {
-                tpp.Text = "Select your VSOnline Intance";
+                tpp.Text = "Select your Instance";
                 var result = tpp.ShowDialog(Utilities.WPFWindowHelper.GetIWin32ParentWindow(this.View));
 
                 if (result == DialogResult.OK)

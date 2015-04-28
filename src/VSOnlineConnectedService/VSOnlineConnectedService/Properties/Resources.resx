@@ -117,7 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Auth_BasicAuthDescription" xml:space="preserve">
+    <value>The scaffolding code will provide a prompt for non-default credentials to be specified at runtime to authenticate to VSOnline.</value>
+  </data>
+  <data name="Auth_BasicAuthTitle" xml:space="preserve">
+    <value>Basic Authentication</value>
+  </data>
+  <data name="Auth_IntegratedAuthDescription" xml:space="preserve">
+    <value>The scaffolding code will use the runtime caller's Windows credentials to authenticate to VSOnline.</value>
+  </data>
+  <data name="Auth_IntegratedAuthTitle" xml:space="preserve">
+    <value>Integrated Authentication</value>
+  </data>
+  <data name="Auth_ServiceAccountDescription" xml:space="preserve">
+    <value>Used when running in headless scenarios, where you need a username/password in the app as there's no user interaction</value>
+  </data>
+  <data name="Auth_ServiceAccountTitle" xml:space="preserve">
+    <value>Service Account w/Username and Password</value>
+  </data>
   <data name="GettingStartedURL" xml:space="preserve">
     <value>https://github.com/SteveLasker/VSOnlineConnectedService/blob/master/Docs/GettingStarted/GettingStarted.md</value>
+  </data>
+  <data name="RuntimeAuthPageDescription" xml:space="preserve">
+    <value>How will your app authenticate to Visual Studio Online at runtime?</value>
+  </data>
+  <data name="RuntimeAuthPageTitle" xml:space="preserve">
+    <value>Visual Studio Online</value>
+  </data>
+  <data name="RunttimeAuthPageLegend" xml:space="preserve">
+    <value>Runtime Auth</value>
+  </data>
+  <data name="TeamProjectPageDescription" xml:space="preserve">
+    <value>Select the Server</value>
+  </data>
+  <data name="TeamProjectPageLegend" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="TeamProjectPageTitle" xml:space="preserve">
+    <value>Visual Studio Online</value>
   </data>
 </root>

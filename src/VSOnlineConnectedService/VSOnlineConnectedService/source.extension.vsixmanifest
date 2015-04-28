@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="VSOnlineConnectedService.e30335d6-f9c7-4d08-b422-f011f3f18477" Version="1.0.0.6" Language="en-US" Publisher="Steve Lasker" />
+    <Identity Id="VSOnlineConnectedService.e30335d6-f9c7-4d08-b422-f011f3f18477" Version="1.0.0.7" Language="en-US" Publisher="Steve Lasker" />
     <DisplayName>Visual Studio Online Connected Service Sample (RC)</DisplayName>
     <Description xml:space="preserve">A Sample Visual Studio 2015 RC Connected Service for Visual Studio Online</Description>
     <MoreInfo>https://github.com/SteveLasker/VSOnlineConnectedService/blob/master/Docs/ReadMe.md</MoreInfo>
