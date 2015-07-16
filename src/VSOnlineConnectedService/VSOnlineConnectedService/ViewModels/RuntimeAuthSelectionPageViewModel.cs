@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.ConnectedServices;
-using Microsoft.TeamFoundation.Client;
 using VSOnlineConnectedService.Views;
 
 namespace VSOnlineConnectedService.ViewModels
@@ -41,7 +40,7 @@ namespace VSOnlineConnectedService.ViewModels
             }
         }
 
-        public override Task<WizardNavigationResult> OnPageLeavingAsync(WizardLeavingArgs args)
+        public override Task<PageNavigationResult> OnPageLeavingAsync(WizardLeavingArgs args)
         {
             // If the user has entered and left this page, validate the RuntimeAuthOption has been set to a valid value
             if (this.RuntimeAuthOptions == RuntimeAuthOptions.None)
