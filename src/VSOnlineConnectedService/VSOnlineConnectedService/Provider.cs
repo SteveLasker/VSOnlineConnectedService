@@ -16,7 +16,7 @@ namespace VSOnlineConnectedService
             Category = "Microsoft";
             Name = "Visual Studio Online - Work Item Tracking Sample";
             Description = "Manage Work Items in Visual Studio Online."; this.CreatedBy = "Steve Lasker";
-            Version = new Version(1, 0, 0, 7);
+            Version = new Version(1, 0, 0, 8);
             MoreInfoUri = new Uri("https://github.com/SteveLasker/VSOnlineConnectedServiceProvider");
             Icon = new BitmapImage(new Uri("pack://application:,,/" + Assembly.GetExecutingAssembly().ToString() + ";component/" + "Resources/Icon.png"));
         }
